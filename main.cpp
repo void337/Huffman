@@ -121,7 +121,7 @@ public:
     }
 
     void printHeap() const {
-        cout << "Мин-куча [" << heap.size() << " элементов]: ";
+        cout << "РњРёРЅ-РєСѓС‡Р° [" << heap.size() << " СЌР»РµРјРµРЅС‚РѕРІ]: ";
         for (const auto& node : heap) {
             cout << node->frequency << " ";
         }
@@ -177,7 +177,7 @@ bool readFileAndCountFrequencies(const string& filename,
     unsigned long long& totalBytes) {
     ifstream file(filename, ios::binary | ios::ate);
     if (!file) {
-        cerr << "Ошибка: не удалось открыть файл " << filename << endl;
+        cerr << "РћС€РёР±РєР°: РЅРµ СѓРґР°Р»РѕСЃСЊ РѕС‚РєСЂС‹С‚СЊ С„Р°Р№Р» " << filename << endl;
         return false;
     }
 
@@ -207,11 +207,11 @@ void printHuffmanTable(const vector<unsigned long long>& frequencies,
     const unordered_map<unsigned char, int>& codeLengths,
     unsigned long long totalBytes) {
     
-    cout << left << setw(13) << "Байт" 
-         << setw(12) << "Частота" 
-         << setw(20) << "Вероятность" 
-         << setw(20) << "Код Хаффмана" 
-         << setw(10) << "Длина" << endl;
+    cout << left << setw(13) << "Р‘Р°Р№С‚" 
+         << setw(12) << "Р§Р°СЃС‚РѕС‚Р°" 
+         << setw(20) << "Р’РµСЂРѕСЏС‚РЅРѕСЃС‚СЊ" 
+         << setw(20) << "РљРѕРґ РҐР°С„С„РјР°РЅР°" 
+         << setw(10) << "Р”Р»РёРЅР°" << endl;
 
     vector<pair<unsigned long long, unsigned char>> sortedBytes;
     for (int i = 0; i < 256; ++i) {
@@ -249,14 +249,14 @@ void printHuffmanTable(const vector<unsigned long long>& frequencies,
 void printCompressionStats(unsigned long long totalBytes,
     unsigned long long totalBits,
     const vector<unsigned long long>& frequencies) {
-    unsigned long long fixedBits = totalBytes * 8; // 8 бит на байт без сжатия
+    unsigned long long fixedBits = totalBytes * 8; 
     double compressionRatio = static_cast<double>(totalBits) / fixedBits * 100;
     double avgCodeLength = static_cast<double>(totalBits) / totalBytes;
 
-    cout << "Размер исходного файла: " << fixedBits << " бит ("
-        << totalBytes << " байт)" << endl;
-    cout << "Размер после сжатия Хаффмана: " << totalBits << " бит ("
-        << (totalBits + 7) / 8 << " байт)" << endl;
+    cout << "Р Р°Р·РјРµСЂ РёСЃС…РѕРґРЅРѕРіРѕ С„Р°Р№Р»Р°: " << fixedBits << " Р±РёС‚ ("
+        << totalBytes << " Р±Р°Р№С‚)" << endl;
+    cout << "Р Р°Р·РјРµСЂ РїРѕСЃР»Рµ СЃР¶Р°С‚РёСЏ РҐР°С„С„РјР°РЅР°: " << totalBits << " Р±РёС‚ ("
+        << (totalBits + 7) / 8 << " Р±Р°Р№С‚)" << endl;
 
     double entropy = 0.0;
     for (int i = 0; i < 256; ++i) {
@@ -266,9 +266,9 @@ void printCompressionStats(unsigned long long totalBytes,
         }
     }
 
-    cout << "Энтропия Шеннона (бит/символ): " << entropy << endl;
-    cout << "Средняя длина кода Хаффмана: " << avgCodeLength << " бит/символ" << endl;
-    cout << "Разница: " << (avgCodeLength - entropy) << " бит/символ" << endl;
+    cout << "Р­РЅС‚СЂРѕРїРёСЏ РЁРµРЅРЅРѕРЅР° (Р±РёС‚/СЃРёРјРІРѕР»): " << entropy << endl;
+    cout << "РЎСЂРµРґРЅСЏСЏ РґР»РёРЅР° РєРѕРґР° РҐР°С„С„РјР°РЅР°: " << avgCodeLength << " Р±РёС‚/СЃРёРјРІРѕР»" << endl;
+    cout << "Р Р°Р·РЅРёС†Р°: " << (avgCodeLength - entropy) << " Р±РёС‚/СЃРёРјРІРѕР»" << endl;
 
 }
 int main(int argc, char* argv[]) {
@@ -289,8 +289,8 @@ int main(int argc, char* argv[]) {
         }
     }
 
-    cout << "Размер файла: " << totalBytes << " байт" << endl;
-    cout << "Уникальных байтов: " << uniqueBytes << " из 256" << endl;
+    cout << "Р Р°Р·РјРµСЂ С„Р°Р№Р»Р°: " << totalBytes << " Р±Р°Р№С‚" << endl;
+    cout << "РЈРЅРёРєР°Р»СЊРЅС‹С… Р±Р°Р№С‚РѕРІ: " << uniqueBytes << " РёР· 256" << endl;
 
     vector<HuffmanNode*> initialNodes;
     for (int i = 0; i < 256; ++i) {
@@ -299,16 +299,16 @@ int main(int argc, char* argv[]) {
         }
     }
 
-    cout << "Создано " << initialNodes.size() << " узлов для уникальных байтов" << endl;
+    cout << "РЎРѕР·РґР°РЅРѕ " << initialNodes.size() << " СѓР·Р»РѕРІ РґР»СЏ СѓРЅРёРєР°Р»СЊРЅС‹С… Р±Р°Р№С‚РѕРІ" << endl;
 
     MinHeap minHeap(initialNodes);
-    cout << "Мин-куча построена. Размер кучи: " << minHeap.size() << endl;
+    cout << "РњРёРЅ-РєСѓС‡Р° РїРѕСЃС‚СЂРѕРµРЅР°. Р Р°Р·РјРµСЂ РєСѓС‡Рё: " << minHeap.size() << endl;
 
     HuffmanNode* minNode = minHeap.peek();
     if (minNode) {
-        cout << "Минимальный элемент в куче: байт 0x" << hex
+        cout << "РњРёРЅРёРјР°Р»СЊРЅС‹Р№ СЌР»РµРјРµРЅС‚ РІ РєСѓС‡Рµ: Р±Р°Р№С‚ 0x" << hex
             << static_cast<int>(minNode->byte) << dec
-            << ", частота = " << minNode->frequency << endl;
+            << ", С‡Р°СЃС‚РѕС‚Р° = " << minNode->frequency << endl;
     }
 
 
@@ -329,7 +329,7 @@ int main(int argc, char* argv[]) {
     vector<unsigned char> exampleBytes = { 0x00, 0xFF, 'A', ' ', 0x0A };
     for (auto byte : exampleBytes) {
         if (frequencies[byte] > 0) {
-            cout << "Байт 0x" << hex << setw(2) << setfill('0')
+            cout << "Р‘Р°Р№С‚ 0x" << hex << setw(2) << setfill('0')
                 << static_cast<int>(byte) << dec << " ('"
                 << (byte >= 32 && byte <= 126 ? static_cast<char>(byte) : '.')
                 << "'): " << huffmanCodes[byte] << endl;
